@@ -337,10 +337,10 @@ img {
 /* 992px */
 @media screen and (min-width: 750px) {
   .animate-scroll {
-    width: 5%;
-    height: 5%;
+    width: 2.5%;
+    height: 2.5%;
   }
-
+  
   .about-content-header {
     text-align: left;
   }
