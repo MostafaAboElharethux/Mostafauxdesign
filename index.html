@@ -278,65 +278,350 @@ nav.s {
    HERO
 ============================================= */
 .hero {
-    min-height: 100svh; padding: var(--nav) var(--px) 80px;
-    display: flex; flex-direction: column; justify-content: flex-end;
-    position: relative; overflow: hidden;
-}
-.hero-glow {
-    position: absolute; inset: 0; pointer-events: none;
+    min-height: 100svh;
+    padding: calc(var(--nav) + 20px) var(--px) 40px;
+    position: relative;
+    overflow: hidden;
+    isolation: isolate;
     background:
-        radial-gradient(ellipse 65% 45% at 72% 25%, rgba(200,169,110,.042) 0%, transparent 65%),
-        radial-gradient(ellipse 35% 55% at 8% 82%,  rgba(200,169,110,.028) 0%, transparent 55%);
+        radial-gradient(circle at 16% 16%, rgba(255,255,255,.03) 0%, transparent 24%),
+        radial-gradient(circle at 78% 58%, rgba(154,106,50,.1) 0%, transparent 28%),
+        linear-gradient(180deg, #080807 0%, #060605 100%);
 }
-
-.hero-tag {
-    font-family: var(--fm); font-size: 11px; letter-spacing: .14em;
-    text-transform: uppercase; color: var(--accent); margin-bottom: 44px;
-    opacity: 0; animation: fu .9s var(--ease) .15s forwards;
+.hero::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image:
+        linear-gradient(rgba(255,255,255,.022) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,.022) 1px, transparent 1px);
+    background-size: 18px 18px;
+    opacity: .12;
+    mask-image: radial-gradient(circle at 50% 44%, black 32%, transparent 84%);
+    pointer-events: none;
 }
-
-.hero-h1 {
+.hero-backdrop {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background:
+        radial-gradient(ellipse 58% 46% at 79% 48%, rgba(183,132,72,.17) 0%, transparent 52%),
+        radial-gradient(ellipse 30% 18% at 70% 76%, rgba(106,71,34,.18) 0%, transparent 70%),
+        radial-gradient(ellipse 20% 14% at 76% 36%, rgba(255,236,199,.11) 0%, transparent 60%);
+    opacity: .9;
+}
+.hero-grid {
+    position: relative;
+    min-height: calc(100svh - var(--nav) - 56px);
+    display: grid;
+    grid-template-columns: minmax(300px, 380px) minmax(0, 1fr);
+    grid-template-rows: minmax(0, 1fr) auto;
+    align-items: center;
+    gap: clamp(24px, 4.4vw, 64px);
+    grid-template-areas:
+        "copy display"
+        "trust trust";
+}
+.hero-copy,
+.hero-display,
+.hero-trust,
+.scroll-cue {
+    position: relative;
+    z-index: 2;
+}
+.hero-copy {
+    grid-area: copy;
+    align-self: end;
+    max-width: 360px;
+    padding-bottom: 68px;
+    opacity: 0;
+    animation: fu .9s var(--ease) .2s forwards;
+}
+.hero-status {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 9px 14px;
+    border-radius: 999px;
+    border: 1px solid rgba(255,255,255,.11);
+    background: rgba(255,255,255,.045);
+    box-shadow: inset 0 1px 0 rgba(255,255,255,.06);
+    font-family: var(--fu);
+    font-size: 13px;
+    color: var(--text-1);
+    margin-bottom: 26px;
+    backdrop-filter: blur(14px);
+}
+.hero-status-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: #8DFF6A;
+    box-shadow: 0 0 0 8px rgba(141,255,106,.12);
+}
+.hero-kicker {
+    font-family: var(--fm);
+    font-size: 11px;
+    letter-spacing: .16em;
+    text-transform: uppercase;
+    color: rgba(236,234,226,.58);
+    margin-bottom: 16px;
+}
+.hero-intro {
     font-family: var(--fd);
-    font-size: clamp(48px, 8.5vw, 124px);
-    font-weight: 300; line-height: 1.03; letter-spacing: -.025em;
-    margin-bottom: 52px;
+    font-size: clamp(40px, 4.9vw, 78px);
+    line-height: .95;
+    letter-spacing: -.04em;
+    color: rgba(245,242,233,.98);
+    margin-bottom: 24px;
 }
-.h-line { display: block; overflow: hidden; }
-.h-inner {
-    display: block; transform: translateY(110%);
-    animation: su 1.05s var(--ease) forwards;
+.hero-note {
+    font-size: clamp(14px, 1.3vw, 16px);
+    color: var(--text-2);
+    line-height: 1.74;
+    margin-bottom: 34px;
+    max-width: 32ch;
 }
-.h-line:nth-child(1) .h-inner { animation-delay: .35s; }
-.h-line:nth-child(2) .h-inner { animation-delay: .52s; }
-.h-line:nth-child(3) .h-inner { animation-delay: .68s; font-style: italic; color: var(--text-2); }
+.hero-actions {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+.hero-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    min-width: 160px;
+    padding: 13px 21px;
+    border-radius: 999px;
+    border: 1px solid rgba(255,255,255,.1);
+    background: rgba(255,255,255,.06);
+    color: var(--text-1);
+    font-size: 14px;
+    transition: transform .35s var(--ease), border-color .35s, background .35s, color .35s;
+    backdrop-filter: blur(16px);
+}
+.hero-btn:hover {
+    transform: translateY(-2px);
+    border-color: rgba(255,255,255,.2);
+    background: rgba(255,255,255,.12);
+}
+.hero-btn.primary {
+    background: var(--text-1);
+    color: #090907;
+    border-color: transparent;
+    box-shadow: 0 16px 40px rgba(255,255,255,.08);
+}
+.hero-btn.primary:hover {
+    background: #fff;
+}
+.hero-display {
+    grid-area: display;
+    min-height: 760px;
+}
+.hero-nameplate {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+}
+.hero-name {
+    position: absolute;
+    left: 0;
+    width: 100%;
+    font-family: var(--fu);
+    font-size: clamp(88px, 14.6vw, 220px);
+    line-height: .84;
+    letter-spacing: -.075em;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: rgba(245,242,234,.99);
+    white-space: nowrap;
+    overflow: hidden;
+    opacity: 0;
+    text-shadow: 0 18px 38px rgba(0,0,0,.28);
+}
+.hero-name span {
+    display: block;
+    transform: translateY(112%);
+    animation: su 1s var(--ease) forwards;
+}
+.hero-name.first {
+    top: 48px;
+}
+.hero-name.second {
+    top: clamp(174px, 25vw, 296px);
+    left: clamp(70px, 9vw, 130px);
+}
+.hero-name.first span { animation-delay: .28s; }
+.hero-name.second span { animation-delay: .42s; }
+.hero-roleline {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: clamp(246px, 31vw, 378px);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 26px;
+    padding: 0 clamp(10px, 2vw, 32px);
+    font-family: var(--fu);
+    font-size: clamp(24px, 3.2vw, 54px);
+    letter-spacing: -.04em;
+    text-transform: uppercase;
+    color: rgba(184,177,164,.66);
+    opacity: 0;
+    animation: fu .9s var(--ease) .65s forwards;
+}
+.hero-roleline span:last-child {
+    text-align: right;
+}
+.hero-roleline::before {
+    content: "";
+    position: absolute;
+    inset: 46% 28% auto;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(255,240,208,.24), transparent);
+}
+.hero-portrait-wrap {
+    position: absolute;
+    right: clamp(-38px, 0vw, 18px);
+    bottom: -2px;
+    width: min(46vw, 700px);
+    min-width: 360px;
+    z-index: 3;
+    opacity: 0;
+    transform: translateY(32px) scale(.98);
+    animation: heroPortraitIn 1.1s var(--ease) .55s forwards;
+}
+.hero-portrait-aura {
+    position: absolute;
+    inset: 18% 6% 4%;
+    border-radius: 999px;
+    background:
+        radial-gradient(circle at 38% 36%, rgba(255,228,173,.15) 0%, transparent 26%),
+        radial-gradient(circle at 48% 72%, rgba(132,92,45,.18) 0%, transparent 44%);
+    filter: blur(38px);
+    opacity: .82;
+}
+.hero-portrait-img {
+    position: relative;
+    width: 100%;
+    object-fit: contain;
+    filter: grayscale(1) contrast(1.08) brightness(.98) drop-shadow(0 32px 70px rgba(0,0,0,.55));
+}
+.hero-wave-field {
+    position: absolute;
+    right: -3%;
+    bottom: 7%;
+    width: min(66vw, 920px);
+    height: min(34vh, 260px);
+    z-index: 1;
+    pointer-events: auto;
+    opacity: .84;
+}
+.hero-trust {
+    grid-area: trust;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 18px;
+    padding-top: 14px;
+    border-top: 1px solid rgba(255,255,255,.08);
+    margin-top: -24px;
+    opacity: 0;
+    animation: fu .9s var(--ease) 1s forwards;
+}
+.hero-trust-copy {
+    font-family: var(--fm);
+    font-size: 10px;
+    letter-spacing: .16em;
+    text-transform: uppercase;
+    color: rgba(236,234,226,.3);
+}
+.hero-trust-list {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    flex-wrap: wrap;
+    gap: clamp(18px, 2vw, 42px);
+}
+.hero-trust-item {
+    font-family: var(--fu);
+    font-size: clamp(18px, 1.8vw, 28px);
+    letter-spacing: -.04em;
+    color: rgba(236,234,226,.42);
+}
+.hero-steam {
+    position: absolute;
+    width: 96px;
+    height: 122px;
+    left: 8%;
+    top: 26%;
+    z-index: 4;
+    pointer-events: none;
+    opacity: .54;
+}
+.hero-steam span {
+    position: absolute;
+    bottom: 0;
+    width: 28px;
+    height: 92px;
+    border-radius: 999px;
+    border: 1px solid rgba(255,241,220,.14);
+    border-color: rgba(255,241,220,.14) transparent transparent transparent;
+    filter: blur(1px);
+    animation: steamRise 5.8s linear infinite;
+}
+.hero-steam span:nth-child(1) {
+    left: 18px;
+    transform: rotate(-8deg);
+}
+.hero-steam span:nth-child(2) {
+    left: 46px;
+    height: 132px;
+    animation-delay: 1.6s;
+    transform: rotate(8deg);
+}
+.hero-steam span:nth-child(3) {
+    left: 72px;
+    height: 120px;
+    animation-delay: .8s;
+    transform: rotate(-2deg);
+}
 
 @keyframes su { to { transform: translateY(0); } }
 @keyframes fu { from { opacity:0; transform:translateY(10px); } to { opacity:1; transform:translateY(0); } }
-
-.hero-sub {
-    font-size: clamp(15px,1.55vw,19px); color: var(--text-2);
-    max-width: 540px; font-weight: 400; line-height: 1.65;
-    opacity: 0; animation: fu .9s var(--ease) .95s forwards;
-    margin-bottom: 52px;
+@keyframes heroPortraitIn {
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
 }
-
-.hero-chips {
-    display: flex; gap: 12px; flex-wrap: wrap;
-    opacity: 0; animation: fu .9s var(--ease) 1.2s forwards;
+@keyframes steamRise {
+    0% {
+        opacity: 0;
+        transform: translateY(10px) translateX(0) scaleY(.92);
+    }
+    20% {
+        opacity: .6;
+    }
+    70% {
+        opacity: .34;
+    }
+    100% {
+        opacity: 0;
+        transform: translateY(-56px) translateX(8px) scaleY(1.12);
+    }
 }
-.chip {
-    display: inline-flex; align-items: center; gap: 8px;
-    padding: 8px 16px; border: 1px solid var(--border); border-radius: 100px;
-    font-family: var(--fm); font-size: 11px; letter-spacing: .06em; color: var(--text-2);
-}
-.chip-dot { width: 4px; height: 4px; background: var(--accent); border-radius: 50%; }
 
 .scroll-cue {
-    position: absolute; bottom: 40px; right: var(--px);
+    position: absolute; bottom: 18px; right: 0;
     display: flex; flex-direction: column; align-items: center; gap: 10px;
     font-family: var(--fm); font-size: 10px; letter-spacing: .18em;
     text-transform: uppercase; color: var(--text-3);
-    opacity: 0; animation: fu .9s var(--ease) 1.5s forwards;
+    opacity: 0; animation: fu .9s var(--ease) 1.25s forwards;
 }
 .scroll-cue-line {
     width: 1px; height: 52px;
@@ -408,18 +693,10 @@ nav.s {
     background: var(--surface); cursor: none;
     transition: opacity .4s;
 }
-.pc:first-child { grid-column: 1 / -1; }
 
 .pc-vis {
-    width: 100%; aspect-ratio: 16/9; overflow: hidden; position: relative;
+    width: 100%; aspect-ratio: 16/10; overflow: hidden; position: relative;
 }
-.pc:first-child .pc-vis { aspect-ratio: 21/9; }
-
-.pc-vis-in {
-    position: absolute; inset: 0;
-    transition: transform .9s var(--ease);
-}
-.pc:hover .pc-vis-in { transform: scale(1.035); }
 
 /* --- PROJECT VISUAL THEMES --- */
 .v-bounce {
@@ -557,7 +834,7 @@ nav.s {
 }
 
 .project-card:first-child .pc-vis {
-    aspect-ratio: 21/10;
+    aspect-ratio: 16/10;
 }
 
 .project-thumb {
@@ -565,7 +842,7 @@ nav.s {
     height: 100%;
     object-fit: cover;
     filter: saturate(.94) contrast(1.02);
-    transition: transform 1.1s var(--ease), filter .45s var(--ease);
+    transition: transform 1.1s var(--ease), filter .45s var(--ease), opacity .35s var(--ease);
 }
 
 .project-card .pc-vis::after {
@@ -581,6 +858,99 @@ nav.s {
 .project-card:hover .project-thumb {
     transform: scale(1.035);
     filter: saturate(1) contrast(1.04);
+}
+
+.thumb-carousel {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+.thumb-track {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    transition: transform .55s var(--ease);
+    will-change: transform;
+}
+
+.thumb-slide {
+    min-width: 100%;
+    height: 100%;
+    position: relative;
+}
+
+.thumb-nav {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    border: 1px solid rgba(255,255,255,.12);
+    background: rgba(10,10,8,.46);
+    color: var(--text-1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2;
+    opacity: 0;
+    transition: opacity .28s var(--ease), transform .28s var(--ease), border-color .28s var(--ease), background .28s var(--ease);
+    backdrop-filter: blur(12px);
+}
+
+.thumb-nav:hover {
+    border-color: rgba(200,169,110,.34);
+    background: rgba(10,10,8,.74);
+}
+
+.thumb-nav.prev { left: 14px; }
+.thumb-nav.next { right: 14px; }
+
+.project-card:hover .thumb-nav,
+.project-card:focus-within .thumb-nav {
+    opacity: 1;
+}
+
+.thumb-dots {
+    position: absolute;
+    left: 50%;
+    bottom: 14px;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 6px;
+    z-index: 2;
+}
+
+.thumb-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: rgba(255,255,255,.28);
+    transition: transform .28s var(--ease), background .28s var(--ease);
+}
+
+.thumb-dot.active {
+    background: var(--accent);
+    transform: scale(1.18);
+}
+
+.thumb-hint {
+    position: absolute;
+    left: 16px;
+    bottom: 14px;
+    z-index: 2;
+    padding: 7px 11px;
+    border-radius: 999px;
+    background: rgba(10,10,8,.5);
+    color: rgba(236,234,226,.86);
+    font-family: var(--fm);
+    font-size: 9px;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    border: 1px solid rgba(255,255,255,.08);
+    backdrop-filter: blur(10px);
 }
 
 .pc-copy {
@@ -749,15 +1119,109 @@ footer {
     .nav-avatar { width:38px; height:38px; top:6px; left:6px; }
     .nav-name { font-size: 20px; }
     .nav-role { max-width: 190px; }
+    .hero {
+        padding-bottom: 34px;
+    }
+    .hero-grid {
+        min-height: auto;
+        grid-template-columns: 1fr;
+        grid-template-areas:
+            "display"
+            "copy"
+            "trust";
+        align-items: start;
+        gap: 28px;
+    }
+    .hero-copy {
+        max-width: 100%;
+        order: 2;
+        padding-bottom: 0;
+    }
+    .hero-display {
+        order: 1;
+        min-height: 560px;
+    }
+    .hero-name {
+        font-size: clamp(68px, 16vw, 122px);
+        white-space: normal;
+        overflow: visible;
+    }
+    .hero-name.first {
+        top: 26px;
+    }
+    .hero-name.second {
+        top: 116px;
+        left: 0;
+    }
+    .hero-roleline {
+        top: 194px;
+        padding: 0;
+        font-size: clamp(20px, 5.2vw, 36px);
+    }
+    .hero-portrait-wrap {
+        right: 50%;
+        bottom: 0;
+        width: min(92vw, 470px);
+        min-width: 0;
+        transform: translate(50%, 32px) scale(.98);
+    }
+    .hero-wave-field {
+        right: -8%;
+        bottom: 7%;
+        width: 116%;
+        height: 180px;
+    }
+    .hero-steam {
+        left: 14%;
+        top: 22%;
+        transform: scale(.8);
+    }
+    .hero-trust {
+        flex-direction: column;
+        align-items: flex-start;
+        margin-top: 0;
+    }
+    .hero-trust-list {
+        justify-content: flex-start;
+    }
+    .scroll-cue {
+        display: none;
+    }
     .work-grid { grid-template-columns:1fr; }
-    .pc:first-child { grid-column:1; }
     .about-grid { grid-template-columns:1fr; gap:52px; }
     .te { grid-template-columns:1fr; gap:10px; }
     .sk-sum-grid { grid-template-columns:1fr 1fr; gap:32px; }
 }
 @media (max-width:560px) {
     .sk-sum-grid { grid-template-columns:1fr; }
-    .hero-h1 { font-size: clamp(42px, 12vw, 72px); }
+    .hero {
+        padding-top: calc(var(--nav) + 10px);
+    }
+    .hero-display {
+        min-height: 450px;
+    }
+    .hero-roleline {
+        top: 166px;
+        gap: 14px;
+        font-size: 16px;
+    }
+    .hero-status {
+        font-size: 13px;
+    }
+    .hero-intro {
+        font-size: 46px;
+    }
+    .hero-btn {
+        width: 100%;
+    }
+    .hero-trust-item {
+        font-size: 18px;
+    }
+    .hero-steam {
+        left: 10%;
+        top: 18%;
+        transform: scale(.64);
+    }
 }
 </style>
 </head>
@@ -812,30 +1276,68 @@ footer {
 
 <!-- ======= HERO ======= -->
 <section class="hero">
-    <div class="hero-glow"></div>
+    <div class="hero-backdrop"></div>
+    <div class="hero-grid">
+        <div class="hero-copy">
+            <div class="hero-status">
+                <span class="hero-status-dot"></span>
+                Open for product design roles
+            </div>
+            <div class="hero-kicker">Senior UX/UI Designer · 6+ years · Egypt</div>
+            <p class="hero-intro">
+                Designing calm systems with cinematic impact.
+            </p>
+            <p class="hero-note">
+                Senior UX/UI Designer shaping fintech and SaaS products into clear, premium experiences people trust quickly and remember naturally.
+            </p>
+            <div class="hero-actions">
+                <a class="hero-btn primary" href="https://docs.google.com/document/d/1jFF5WO1JK4ABuLN5yIQDkroDMRiX9VEl/edit?usp=sharing&ouid=117887417011165398233&rtpof=true&sd=true" target="_blank" rel="noopener noreferrer">View Resume</a>
+                <a class="hero-btn" href="#work">Explore Work</a>
+            </div>
+        </div>
 
-    <div class="hero-tag">Senior Product Designer &nbsp;·&nbsp; 6+ Years &nbsp;·&nbsp; Egypt</div>
+        <div class="hero-display">
+            <div class="hero-nameplate" aria-hidden="true">
+                <div class="hero-name first"><span>Mostafa</span></div>
+                <div class="hero-name second"><span>Aboelhareth</span></div>
+                <div class="hero-roleline">
+                    <span>Product clarity</span>
+                    <span>Visual calm</span>
+                </div>
+            </div>
 
-    <h1 class="hero-h1">
-        <span class="h-line"><span class="h-inner">Designing scalable</span></span>
-        <span class="h-line"><span class="h-inner">digital products</span></span>
-        <span class="h-line"><span class="h-inner">that drive real impact</span></span>
-    </h1>
+            <canvas class="hero-wave-field" id="heroWaveField" aria-hidden="true"></canvas>
 
-    <p class="hero-sub">
-        Senior Product Designer with 6+ years across fintech, SaaS, and mobile platforms —
-        turning complex systems into clear, elegant experiences that ship.
-    </p>
+            <div class="hero-portrait-wrap">
+                <div class="hero-portrait-aura"></div>
+                <div class="hero-steam" aria-hidden="true">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+                <img
+                    class="hero-portrait-img"
+                    id="heroPortrait"
+                    src="assets/Wow Portfolio image for hero section.png"
+                    alt="Mostafa Aboelhareth portrait"
+                >
+            </div>
+        </div>
 
-    <div class="hero-chips">
-        <div class="chip"><span class="chip-dot"></span>Mostafa Abo Elhareth</div>
-        <div class="chip"><span class="chip-dot"></span>Cairo, Egypt</div>
-        <div class="chip"><span class="chip-dot"></span>UX / UI Design</div>
-    </div>
+        <div class="hero-trust">
+            <div class="hero-trust-copy">Designed for products that needed trust, rhythm, and executive-level polish</div>
+            <div class="hero-trust-list" aria-label="Core capabilities">
+                <span class="hero-trust-item">UX Strategy</span>
+                <span class="hero-trust-item">Design Systems</span>
+                <span class="hero-trust-item">Product Thinking</span>
+                <span class="hero-trust-item">Interface Craft</span>
+            </div>
+        </div>
 
-    <div class="scroll-cue">
-        <span>Scroll</span>
-        <div class="scroll-cue-line"></div>
+        <div class="scroll-cue">
+            <span>Scroll</span>
+            <div class="scroll-cue-line"></div>
+        </div>
     </div>
 </section>
 
@@ -893,7 +1395,17 @@ footer {
         <article class="pc rv project-card">
             <a class="project-card-link" href="projects/travent.html">
                 <div class="pc-vis">
-                    <img class="project-thumb" src="assets/projects/travent/thambline.png" alt="Travent project thumbnail">
+                    <div class="thumb-carousel" data-carousel>
+                        <div class="thumb-track">
+                            <div class="thumb-slide"><img class="project-thumb" src="assets/projects/travent/thambline.png" alt="Travent preview 1"></div>
+                            <div class="thumb-slide"><img class="project-thumb" src="assets/projects/travent/Screens.png" alt="Travent preview 2"></div>
+                            <div class="thumb-slide"><img class="project-thumb" src="assets/projects/travent/Mobile Design.png" alt="Travent preview 3"></div>
+                        </div>
+                        <button class="thumb-nav prev" type="button" aria-label="Previous preview">&#8592;</button>
+                        <button class="thumb-nav next" type="button" aria-label="Next preview">&#8594;</button>
+                        <div class="thumb-hint">Swipe previews</div>
+                        <div class="thumb-dots"></div>
+                    </div>
                 </div>
                 <div class="pc-info">
                     <div>
@@ -912,7 +1424,17 @@ footer {
         <article class="pc rv project-card" style="transition-delay:.08s">
             <a class="project-card-link" href="projects/cardoo.html">
                 <div class="pc-vis">
-                    <img class="project-thumb" src="assets/projects/cardoo/thambline.png" alt="CardoO project thumbnail">
+                    <div class="thumb-carousel" data-carousel>
+                        <div class="thumb-track">
+                            <div class="thumb-slide"><img class="project-thumb" src="assets/projects/cardoo/thambline.png" alt="CardoO preview 1"></div>
+                            <div class="thumb-slide"><img class="project-thumb" src="assets/projects/cardoo/4- Assessment Overview.png" alt="CardoO preview 2"></div>
+                            <div class="thumb-slide"><img class="project-thumb" src="assets/projects/cardoo/10- Proposed Improvements.png" alt="CardoO preview 3"></div>
+                        </div>
+                        <button class="thumb-nav prev" type="button" aria-label="Previous preview">&#8592;</button>
+                        <button class="thumb-nav next" type="button" aria-label="Next preview">&#8594;</button>
+                        <div class="thumb-hint">Swipe previews</div>
+                        <div class="thumb-dots"></div>
+                    </div>
                 </div>
                 <div class="pc-info">
                     <div>
@@ -931,7 +1453,17 @@ footer {
         <article class="pc rv project-card" style="transition-delay:.14s">
             <a class="project-card-link" href="projects/kfh-homepage-redesign.html">
                 <div class="pc-vis">
-                    <img class="project-thumb" src="assets/projects/kfh/THumbnail.png" alt="KFH Homepage Redesign thumbnail">
+                    <div class="thumb-carousel" data-carousel>
+                        <div class="thumb-track">
+                            <div class="thumb-slide"><img class="project-thumb" src="assets/projects/kfh/THumbnail.png" alt="KFH preview 1"></div>
+                            <div class="thumb-slide"><img class="project-thumb" src="assets/projects/kfh/9.1-Before vs After.png" alt="KFH preview 2"></div>
+                            <div class="thumb-slide"><img class="project-thumb" src="assets/projects/kfh/11- Redesigned UI (Light + Dark).png" alt="KFH preview 3"></div>
+                        </div>
+                        <button class="thumb-nav prev" type="button" aria-label="Previous preview">&#8592;</button>
+                        <button class="thumb-nav next" type="button" aria-label="Next preview">&#8594;</button>
+                        <div class="thumb-hint">Swipe previews</div>
+                        <div class="thumb-dots"></div>
+                    </div>
                 </div>
                 <div class="pc-info">
                     <div>
@@ -950,7 +1482,17 @@ footer {
         <article class="pc rv project-card" style="transition-delay:.2s">
             <a class="project-card-link" href="projects/syft-gg.html">
                 <div class="pc-vis">
-                    <img class="project-thumb" src="assets/projects/syft-gg/syft-gg-01.png" alt="Syft.GG project thumbnail">
+                    <div class="thumb-carousel" data-carousel>
+                        <div class="thumb-track">
+                            <div class="thumb-slide"><img class="project-thumb" src="assets/Syft. GG Thumbnail.png" alt="Syft.GG preview 1"></div>
+                            <div class="thumb-slide"><img class="project-thumb" src="assets/projects/syft-gg/syft-gg-01.png" alt="Syft.GG preview 2"></div>
+                            <div class="thumb-slide"><img class="project-thumb" src="assets/projects/syft-gg/syft-gg-15.png" alt="Syft.GG preview 3"></div>
+                        </div>
+                        <button class="thumb-nav prev" type="button" aria-label="Previous preview">&#8592;</button>
+                        <button class="thumb-nav next" type="button" aria-label="Next preview">&#8594;</button>
+                        <div class="thumb-hint">Swipe previews</div>
+                        <div class="thumb-dots"></div>
+                    </div>
                 </div>
                 <div class="pc-info">
                     <div>
@@ -969,7 +1511,17 @@ footer {
         <article class="pc rv project-card" style="transition-delay:.26s">
             <a class="project-card-link" href="projects/on-cafee.html">
                 <div class="pc-vis">
-                    <img class="project-thumb" src="assets/projects/on-cafee/on-cafee-01.png" alt="On Cafee project thumbnail">
+                    <div class="thumb-carousel" data-carousel>
+                        <div class="thumb-track">
+                            <div class="thumb-slide"><img class="project-thumb" src="assets/On cafee - Thumnail.png" alt="On Cafee preview 1"></div>
+                            <div class="thumb-slide"><img class="project-thumb" src="assets/projects/on-cafee/on-cafee-05.png" alt="On Cafee preview 2"></div>
+                            <div class="thumb-slide"><img class="project-thumb" src="assets/projects/on-cafee/on-cafee-09.png" alt="On Cafee preview 3"></div>
+                        </div>
+                        <button class="thumb-nav prev" type="button" aria-label="Previous preview">&#8592;</button>
+                        <button class="thumb-nav next" type="button" aria-label="Next preview">&#8594;</button>
+                        <div class="thumb-hint">Swipe previews</div>
+                        <div class="thumb-dots"></div>
+                    </div>
                 </div>
                 <div class="pc-info">
                     <div>
@@ -988,12 +1540,22 @@ footer {
         <article class="pc rv project-card" style="transition-delay:.32s">
             <a class="project-card-link" href="projects/daycare-saas.html">
                 <div class="pc-vis">
-                    <img class="project-thumb" src="assets/projects/daycare-saas/daycare-saas-01.png" alt="Enterprise SaaS Platform thumbnail">
+                    <div class="thumb-carousel" data-carousel>
+                        <div class="thumb-track">
+                            <div class="thumb-slide"><img class="project-thumb" src="assets/Bounce - Thumnail.png" alt="Bounce preview 1"></div>
+                            <div class="thumb-slide"><img class="project-thumb" src="assets/projects/daycare-saas/daycare-saas-01.png" alt="Bounce preview 2"></div>
+                            <div class="thumb-slide"><img class="project-thumb" src="assets/projects/daycare-saas/daycare-saas-09.png" alt="Bounce preview 3"></div>
+                        </div>
+                        <button class="thumb-nav prev" type="button" aria-label="Previous preview">&#8592;</button>
+                        <button class="thumb-nav next" type="button" aria-label="Next preview">&#8594;</button>
+                        <div class="thumb-hint">Swipe previews</div>
+                        <div class="thumb-dots"></div>
+                    </div>
                 </div>
                 <div class="pc-info">
                     <div>
                         <div class="pc-num">06 / 06</div>
-                        <div class="pc-name">Enterprise SaaS Platform</div>
+                        <div class="pc-name">Bounce</div>
                         <div class="pc-tag">Daycare Management · Enterprise SaaS</div>
                         <p class="pc-copy">A product story shaped around operations, care, and responsibility. The case study treats structure as a form of support for the people carrying real daily pressure.</p>
                     </div>
@@ -1086,7 +1648,7 @@ footer {
         <div class="te rv">
             <div class="te-dot"></div>
             <div>
-                <div class="te-yr">2022 — Present</div>
+                <div class="te-yr">12/2025 — Present</div>
                 <div class="te-co">Kuwait Finance House Egypt</div>
                 <div class="te-role">Senior UX/UI Designer</div>
             </div>
@@ -1101,7 +1663,7 @@ footer {
         <div class="te rv" style="transition-delay:.08s">
             <div class="te-dot"></div>
             <div>
-                <div class="te-yr">2022 — 2023</div>
+                <div class="te-yr">03/2023 — 07/2025</div>
                 <div class="te-co">Bounce</div>
                 <div class="te-role">UX/UI Consultant</div>
             </div>
@@ -1116,7 +1678,7 @@ footer {
         <div class="te rv" style="transition-delay:.14s">
             <div class="te-dot"></div>
             <div>
-                <div class="te-yr">2021 — 2022</div>
+                <div class="te-yr">07/2025 — 11/2025</div>
                 <div class="te-co">Basata</div>
                 <div class="te-role">UX/UI Designer</div>
             </div>
@@ -1131,7 +1693,7 @@ footer {
         <div class="te rv" style="transition-delay:.2s">
             <div class="te-dot"></div>
             <div>
-                <div class="te-yr">2021 — 2022</div>
+                <div class="te-yr">12/2021 — 02/2023</div>
                 <div class="te-co">EButler</div>
                 <div class="te-role">UX/UI Designer</div>
             </div>
@@ -1146,7 +1708,7 @@ footer {
         <div class="te rv" style="transition-delay:.26s">
             <div class="te-dot"></div>
             <div>
-                <div class="te-yr">2021</div>
+                <div class="te-yr">03/2021 — 12/2021</div>
                 <div class="te-co">Syft</div>
                 <div class="te-role">UX/UI Designer</div>
             </div>
@@ -1161,7 +1723,7 @@ footer {
         <div class="te rv" style="transition-delay:.32s">
             <div class="te-dot"></div>
             <div>
-                <div class="te-yr">2020</div>
+                <div class="te-yr">06/2020 — 02/2021</div>
                 <div class="te-co">YooGad</div>
                 <div class="te-role">UX/UI Designer</div>
             </div>
@@ -1329,6 +1891,201 @@ document.querySelectorAll('a[href^="#"]').forEach(a => {
 });
 
 // =============================================
+// HERO PORTRAIT CLEANUP
+// =============================================
+const heroPortrait = document.getElementById('heroPortrait');
+
+function cleanHeroPortrait() {
+    if (!heroPortrait) return;
+    if (!heroPortrait.getAttribute('src').includes('My Portfolio Image.png')) return;
+
+    const source = new Image();
+    source.onload = () => {
+        const canvas = document.createElement('canvas');
+        const ctx = canvas.getContext('2d', { willReadFrequently: true });
+        const width = source.naturalWidth;
+        const height = source.naturalHeight;
+        canvas.width = width;
+        canvas.height = height;
+        ctx.drawImage(source, 0, 0);
+
+        const imageData = ctx.getImageData(0, 0, width, height);
+        const pixels = imageData.data;
+        const seen = new Uint8Array(width * height);
+        const queue = [];
+
+        const isDark = (r, g, b) => (r + g + b) < 54;
+        const isOrange = (r, g, b) => r > 165 && g > 95 && b < 125 && r > g && g > b;
+        const isBackground = (r, g, b, a) => a > 0 && (isDark(r, g, b) || isOrange(r, g, b));
+
+        const push = index => {
+            if (seen[index]) return;
+            const offset = index * 4;
+            if (!isBackground(pixels[offset], pixels[offset + 1], pixels[offset + 2], pixels[offset + 3])) return;
+            seen[index] = 1;
+            queue.push(index);
+        };
+
+        for (let x = 0; x < width; x += 1) {
+            push(x);
+            push((height - 1) * width + x);
+        }
+        for (let y = 0; y < height; y += 1) {
+            push(y * width);
+            push(y * width + (width - 1));
+        }
+
+        while (queue.length) {
+            const index = queue.shift();
+            const offset = index * 4;
+            pixels[offset + 3] = 0;
+
+            const x = index % width;
+            const y = (index - x) / width;
+            if (x > 0) push(index - 1);
+            if (x < width - 1) push(index + 1);
+            if (y > 0) push(index - width);
+            if (y < height - 1) push(index + width);
+        }
+
+        for (let y = 1; y < height - 1; y += 1) {
+            for (let x = 1; x < width - 1; x += 1) {
+                const index = y * width + x;
+                const offset = index * 4;
+                if (pixels[offset + 3] === 0) continue;
+
+                let transparentNeighbors = 0;
+                for (let oy = -1; oy <= 1; oy += 1) {
+                    for (let ox = -1; ox <= 1; ox += 1) {
+                        if (ox === 0 && oy === 0) continue;
+                        const neighborIndex = ((y + oy) * width + (x + ox)) * 4;
+                        if (pixels[neighborIndex + 3] === 0) transparentNeighbors += 1;
+                    }
+                }
+
+                if (transparentNeighbors > 0) {
+                    pixels[offset + 3] = Math.max(0, pixels[offset + 3] - transparentNeighbors * 20);
+                }
+            }
+        }
+
+        ctx.putImageData(imageData, 0, 0);
+        heroPortrait.src = canvas.toDataURL('image/png');
+    };
+
+    source.src = heroPortrait.getAttribute('src');
+}
+
+// =============================================
+// HERO WAVE FIELD
+// =============================================
+const heroWaveField = document.getElementById('heroWaveField');
+
+function initHeroWaveField() {
+    if (!heroWaveField) return;
+
+    const ctx = heroWaveField.getContext('2d');
+    const impacts = [];
+    let width = 0;
+    let height = 0;
+    let lastImpact = 0;
+
+    const resize = () => {
+        const rect = heroWaveField.getBoundingClientRect();
+        const dpr = window.devicePixelRatio || 1;
+        width = rect.width;
+        height = rect.height;
+        heroWaveField.width = width * dpr;
+        heroWaveField.height = height * dpr;
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    };
+
+    const addImpact = clientX => {
+        const rect = heroWaveField.getBoundingClientRect();
+        impacts.push({
+            x: clientX - rect.left,
+            force: 26 + Math.random() * 10,
+            spread: 42 + Math.random() * 22,
+            born: performance.now()
+        });
+        if (impacts.length > 8) impacts.shift();
+    };
+
+    heroWaveField.addEventListener('pointermove', event => {
+        const now = performance.now();
+        if (now - lastImpact > 90) {
+            addImpact(event.clientX);
+            lastImpact = now;
+        }
+    });
+
+    heroWaveField.addEventListener('pointerenter', event => {
+        addImpact(event.clientX);
+    });
+
+    window.addEventListener('resize', resize);
+    resize();
+
+    const render = now => {
+        ctx.clearRect(0, 0, width, height);
+
+        const gradient = ctx.createLinearGradient(0, height * .12, width, height);
+        gradient.addColorStop(0, 'rgba(255,255,255,0)');
+        gradient.addColorStop(.3, 'rgba(116,77,36,.18)');
+        gradient.addColorStop(.56, 'rgba(201,159,95,.42)');
+        gradient.addColorStop(.8, 'rgba(255,231,185,.76)');
+        gradient.addColorStop(1, 'rgba(255,255,255,0)');
+
+        for (let line = 0; line < 8; line += 1) {
+            const progress = line / 7;
+            const baseY = height * (.36 + progress * .42);
+            const amplitude = 18 + progress * 24;
+            const lineAlpha = .16 + progress * .1;
+
+            ctx.beginPath();
+
+            for (let x = 0; x <= width; x += 10) {
+                const t = now * 0.0013;
+                let y =
+                    baseY +
+                    Math.sin(x * 0.014 + t * (1.1 + progress * .3) + line * .42) * amplitude +
+                    Math.sin(x * 0.023 - t * .86 + line * .65) * amplitude * .34;
+
+                for (let i = impacts.length - 1; i >= 0; i -= 1) {
+                    const impact = impacts[i];
+                    const age = (now - impact.born) / 1000;
+                    if (age > 1.7) {
+                        impacts.splice(i, 1);
+                        continue;
+                    }
+
+                    const distance = x - impact.x;
+                    const spread = impact.spread + age * 210;
+                    const influence = Math.exp(-(distance * distance) / (2 * spread * spread));
+                    y += Math.sin(age * 10.5 - distance * 0.03) * impact.force * influence * Math.exp(-age * 1.5);
+                }
+
+                if (x === 0) ctx.moveTo(x, y);
+                else ctx.lineTo(x, y);
+            }
+
+            ctx.lineWidth = 1.15 + progress * 1.2;
+            ctx.strokeStyle = gradient;
+            ctx.globalAlpha = lineAlpha;
+            ctx.stroke();
+        }
+
+        ctx.globalAlpha = 1;
+        requestAnimationFrame(render);
+    };
+
+    requestAnimationFrame(render);
+}
+
+cleanHeroPortrait();
+initHeroWaveField();
+
+// =============================================
 // HERO PARALLAX
 // =============================================
 const hero = document.querySelector('.hero');
@@ -1359,6 +2116,72 @@ function closeMob() {
     mobToggle.classList.remove('open');
     document.body.style.overflow = '';
 }
+
+// =============================================
+// PROJECT CARD CAROUSELS
+// =============================================
+document.querySelectorAll('[data-carousel]').forEach(carousel => {
+    const track = carousel.querySelector('.thumb-track');
+    const slides = Array.from(carousel.querySelectorAll('.thumb-slide'));
+    const prev = carousel.querySelector('.thumb-nav.prev');
+    const next = carousel.querySelector('.thumb-nav.next');
+    const dotsWrap = carousel.querySelector('.thumb-dots');
+    let index = 0;
+    let startX = 0;
+    let currentX = 0;
+    let dragging = false;
+
+    const dots = slides.map((_, i) => {
+        const dot = document.createElement('span');
+        dot.className = `thumb-dot${i === 0 ? ' active' : ''}`;
+        dotsWrap.appendChild(dot);
+        return dot;
+    });
+
+    const render = () => {
+        track.style.transform = `translateX(-${index * 100}%)`;
+        dots.forEach((dot, i) => dot.classList.toggle('active', i === index));
+    };
+
+    const moveTo = nextIndex => {
+        index = (nextIndex + slides.length) % slides.length;
+        render();
+    };
+
+    prev.addEventListener('click', e => {
+        e.preventDefault();
+        e.stopPropagation();
+        moveTo(index - 1);
+    });
+
+    next.addEventListener('click', e => {
+        e.preventDefault();
+        e.stopPropagation();
+        moveTo(index + 1);
+    });
+
+    carousel.addEventListener('touchstart', e => {
+        startX = e.touches[0].clientX;
+        currentX = startX;
+        dragging = true;
+    }, { passive: true });
+
+    carousel.addEventListener('touchmove', e => {
+        if (!dragging) return;
+        currentX = e.touches[0].clientX;
+    }, { passive: true });
+
+    carousel.addEventListener('touchend', e => {
+        if (!dragging) return;
+        const delta = currentX - startX;
+        if (Math.abs(delta) > 40) {
+            e.preventDefault();
+            e.stopPropagation();
+            moveTo(index + (delta < 0 ? 1 : -1));
+        }
+        dragging = false;
+    });
+});
 
 // =============================================
 // HEADER SIGNATURE LINE
