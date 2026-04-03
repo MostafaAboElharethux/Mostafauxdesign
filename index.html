@@ -135,10 +135,111 @@ nav.s {
     border-color: var(--border);
 }
 .nav-logo {
-    font-family: var(--fd); font-size: 21px; font-weight: 400;
-    letter-spacing: .02em; z-index: 1000;
+    display:flex; align-items:center; gap:16px;
+    z-index: 1000;
 }
 .nav-logo span { color: var(--accent); }
+
+.nav-orbit {
+    position: relative;
+    width: 58px;
+    height: 58px;
+    flex-shrink: 0;
+}
+
+.nav-orbit::before {
+    content:'';
+    position:absolute; inset:0;
+    border-radius:50%;
+    border:1px solid rgba(200,169,110,.24);
+    box-shadow: inset 0 0 0 1px rgba(255,255,255,.03);
+}
+
+.nav-orbit::after {
+    content:'';
+    position:absolute;
+    top:50%;
+    left:50%;
+    width:8px;
+    height:8px;
+    margin:-4px;
+    border-radius:50%;
+    background: var(--accent);
+    box-shadow: 0 0 12px rgba(200,169,110,.48);
+    transform-origin: 0 -24px;
+    animation: orbit 8.8s linear infinite;
+}
+
+.nav-avatar {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    object-fit: cover;
+    position: absolute;
+    top: 7px;
+    left: 7px;
+    border: 1px solid rgba(255,255,255,.08);
+}
+
+.nav-copy {
+    display:flex;
+    flex-direction:column;
+    gap:3px;
+    min-width: 0;
+}
+
+.nav-name {
+    font-family: var(--fd);
+    font-size: 24px;
+    font-weight: 400;
+    letter-spacing: .02em;
+    line-height: 1;
+}
+
+.nav-role {
+    font-size: 12px;
+    color: var(--text-2);
+    line-height: 1.25;
+    min-height: 16px;
+}
+
+.nav-role-static {
+    display:block;
+    color: var(--text-2);
+}
+
+.nav-role-dynamic {
+    display:inline-block;
+    color: var(--text-3);
+    min-width: 280px;
+    min-height: 15px;
+}
+
+.nav-role-dynamic.writing {
+    animation: caretBlink .85s steps(1) infinite;
+}
+
+.nav-role-dynamic .char {
+    display: inline-block;
+    opacity: 0;
+    transform: translateY(4px) rotate(2deg);
+}
+
+.nav-role-dynamic .char.on {
+    opacity: 1;
+    transform: translateY(0) rotate(0deg);
+    transition: opacity .16s var(--ease), transform .16s var(--ease);
+}
+
+@keyframes orbit {
+    from { transform: rotate(0deg) translateY(-24px) rotate(0deg); }
+    to { transform: rotate(360deg) translateY(-24px) rotate(-360deg); }
+}
+
+@keyframes caretBlink {
+    0%, 49% { border-right-color: rgba(200,169,110,.45); }
+    50%, 100% { border-right-color: transparent; }
+}
 
 .nav-links { display: flex; align-items: center; gap: 40px; }
 .nav-links a {
@@ -592,6 +693,27 @@ nav.s {
 }
 .btn-b:hover { border-color:var(--text-2); transform:translateY(-2px); }
 
+.btn-icon {
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
+}
+
+.btn-icon svg {
+    width: 16px;
+    height: 16px;
+    fill: currentColor;
+}
+
+.btn-icon img {
+    width: 16px;
+    height: 16px;
+    display: block;
+}
+
 .sk-sum { margin-top:72px; padding-top:52px; border-top:1px solid var(--border); }
 .sk-sum-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:48px; margin-top:32px; }
 .sk-cat h4 {
@@ -623,6 +745,10 @@ footer {
     :root { --px: 24px; }
     .nav-links, .nav-pill { display:none; }
     .mob-toggle { display:flex; }
+    .nav-orbit { width:50px; height:50px; }
+    .nav-avatar { width:38px; height:38px; top:6px; left:6px; }
+    .nav-name { font-size: 20px; }
+    .nav-role { max-width: 190px; }
     .work-grid { grid-template-columns:1fr; }
     .pc:first-child { grid-column:1; }
     .about-grid { grid-template-columns:1fr; gap:52px; }
@@ -657,7 +783,18 @@ footer {
 
 <!-- ======= NAV ======= -->
 <nav id="nav">
-    <a href="#" class="nav-logo">M<span>.</span>Abo Elhareth</a>
+    <a href="#" class="nav-logo">
+        <div class="nav-orbit">
+            <img src="assets/My Portfolio Image.png" alt="Mostafa portrait" class="nav-avatar">
+        </div>
+        <div class="nav-copy">
+            <div class="nav-name">Mostafa Aboelhareth</div>
+            <div class="nav-role">
+                <span class="nav-role-static">Senior UX/UI Designer</span>
+                <span class="nav-role-dynamic writing" id="navRoleDynamic">Turning ideas into clear flows</span>
+            </div>
+        </div>
+    </a>
     <ul class="nav-links">
         <li><a href="#work">Work</a></li>
         <li><a href="#about">About</a></li>
@@ -744,7 +881,10 @@ footer {
             <h2 class="s-title">Case studies with depth</h2>
         </div>
         <a href="https://www.behance.net/mostafaelhareth" target="_blank" class="btn-b" style="flex-shrink:0">
-            View All on Behance
+            <span class="btn-icon" aria-hidden="true">
+                <img src="assets/Behance icon.svg" alt="">
+            </span>
+            <span>View All on Behance</span>
             <svg width="15" height="15" viewBox="0 0 15 15" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M2 7.5h11M9 3.5l4 4-4 4"/></svg>
         </a>
     </div>
@@ -1218,6 +1358,65 @@ function closeMob() {
     mobMenu.classList.remove('open');
     mobToggle.classList.remove('open');
     document.body.style.overflow = '';
+}
+
+// =============================================
+// HEADER SIGNATURE LINE
+// =============================================
+const navRoleDynamic = document.getElementById('navRoleDynamic');
+const signatureLines = [
+    'Turning ideas into clear flows',
+    'Designing calm digital product systems',
+    'Crafting interfaces people actually trust',
+    'Senior UX/UI Designer shipping clarity',
+    'Built with taste and vibe-coding',
+    'Research first, polish right after',
+];
+
+if (navRoleDynamic) {
+    let signatureIndex = 0;
+    let currentText = signatureLines[0];
+    let currentIndex = 0;
+    let deleting = false;
+
+    const renderCharacters = (text, visibleCount) => {
+        navRoleDynamic.innerHTML = text
+            .split('')
+            .map((char, index) => {
+                const safeChar = char === ' ' ? '&nbsp;' : char;
+                return `<span class="char${index < visibleCount ? ' on' : ''}">${safeChar}</span>`;
+            })
+            .join('');
+    };
+
+    const tickWriter = () => {
+        const targetText = signatureLines[signatureIndex];
+
+        if (!deleting) {
+            currentIndex = Math.min(currentIndex + 1, targetText.length);
+            renderCharacters(targetText, currentIndex);
+            if (currentIndex === targetText.length) {
+                deleting = true;
+                setTimeout(tickWriter, 1300);
+                return;
+            }
+            setTimeout(tickWriter, 70);
+            return;
+        }
+
+        currentIndex = Math.max(currentIndex - 1, 0);
+        renderCharacters(targetText, currentIndex);
+        if (currentIndex === 0) {
+            deleting = false;
+            signatureIndex = (signatureIndex + 1) % signatureLines.length;
+            setTimeout(tickWriter, 220);
+            return;
+        }
+        setTimeout(tickWriter, 26);
+    };
+
+    renderCharacters(currentText, 0);
+    setTimeout(tickWriter, 260);
 }
 </script>
 </body>
