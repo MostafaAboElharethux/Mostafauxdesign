@@ -317,15 +317,15 @@ nav.s {
     overflow: hidden;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
-    padding: calc(var(--nav) + 12px) var(--px) 88px;
+    justify-content: center;
+    padding: 0 var(--px);
 }
 .hbt-first {
     font-family: var(--fd);
     font-size: clamp(96px, 20vw, 288px);
     font-weight: 300;
     letter-spacing: -0.055em;
-    line-height: 0.82;
+    line-height: 0.88;
     color: rgba(255,255,255,0.055);
     text-transform: uppercase;
     white-space: nowrap;
@@ -333,14 +333,15 @@ nav.s {
 }
 .hbt-second {
     font-family: var(--fd);
-    font-size: clamp(68px, 14vw, 202px);
+    font-size: clamp(96px, 20vw, 288px);
     font-weight: 300;
-    font-style: italic;
-    letter-spacing: -0.04em;
-    line-height: 0.82;
-    color: rgba(200,169,110,0.052);
-    text-align: right;
-    white-space: nowrap;
+    letter-spacing: -0.055em;
+    line-height: 0.88;
+    color: rgba(255,255,255,0.055);
+    text-transform: uppercase;
+    white-space: normal;
+    word-break: break-word;
+    text-align: left;
     animation: hbtR 1.6s var(--ease) 0.25s both;
 }
 @keyframes hbtL {
@@ -373,6 +374,7 @@ nav.s {
     filter: contrast(1.07) brightness(0.97);
     animation: portraitIn 2.4s var(--ease) 0s both;
 }
+.hero-portrait-mob { display: none; }
 @keyframes portraitIn {
     0%   { opacity:0; transform:scale(1.05) translateY(24px); filter:contrast(1.07) brightness(0.15); }
     35%  { opacity:1; }
@@ -937,28 +939,31 @@ footer {
         height: 100svh;
     }
     .hero-bg-text {
-        padding: calc(var(--nav) + 22px) var(--px) 250px;
+        padding: 0 16px;
+        justify-content: center;
     }
     .hbt-first  {
         font-size: clamp(72px, 22vw, 148px);
-        line-height: .86;
-        color: rgba(255,255,255,0.04);
+        line-height: .88;
+        color: rgba(255,255,255,0.055);
     }
     .hbt-second {
-        font-size: clamp(52px, 16vw, 108px);
+        font-size: clamp(72px, 22vw, 148px);
         line-height: .88;
-        color: rgba(200,169,110,0.04);
+        color: rgba(255,255,255,0.055);
+        white-space: normal;
+        text-align: left;
     }
     .hero-portrait-wrap {
         align-items: center;
         justify-content: center;
         padding-top: 0;
-        padding-bottom: 180px;
+        padding-bottom: 200px;
     }
     .hero-portrait-img {
-        max-width: 82vw;
+        max-width: 80vw;
         height: auto;
-        max-height: 64svh;
+        max-height: 65svh;
         object-position: center bottom;
         transform: none;
     }
@@ -1016,54 +1021,66 @@ footer {
         min-height: 100svh;
     }
     .hero-bg-text {
-        padding: 118px 18px 246px;
+        padding: 0 18px;
+        justify-content: center;
     }
     .hbt-first  {
-        font-size: clamp(52px, 21vw, 96px);
-        white-space: normal;
-        max-width: 4.8ch;
+        font-size: clamp(60px, 23vw, 96px);
+        letter-spacing: -0.055em;
+        white-space: nowrap;
     }
     .hbt-second {
-        font-size: clamp(36px, 14vw, 64px);
+        font-size: clamp(60px, 23vw, 96px);
+        letter-spacing: -0.055em;
         white-space: normal;
-        max-width: 5.6ch;
-        align-self: flex-end;
+        text-align: left;
+        align-self: auto;
     }
+    .hero-portrait-web { display: none; }
+    .hero-portrait-mob { display: block; }
     .hero-portrait-wrap {
         padding-top: 0;
-        padding-bottom: 170px;
+        padding-bottom: 220px;
         align-items: center;
+        justify-content: center;
     }
     .hero-portrait-img {
-        max-width: 88vw;
-        max-height: 62svh;
+        width: auto;
+        max-width: 92vw;
+        max-height: 60svh;
+        margin-left: 0;
         transform: none;
     }
+    .hero-bottom {
+        padding: 20px 20px 32px;
+        gap: 12px;
+        background: linear-gradient(to top, rgba(11,11,11,1) 0%, rgba(11,11,11,.96) 45%, rgba(11,11,11,.55) 72%, transparent 100%);
+        border-top: none;
+    }
     .hero-role-text {
-        font-size: 22px;
-        line-height: 1.08;
+        font-size: 26px;
+        line-height: 1.05;
+        margin-bottom: 6px;
     }
     .hero-meta-strip {
         font-size: 9px;
         gap: 6px 10px;
-        flex-wrap: nowrap;
+        flex-wrap: wrap;
         max-width: 100%;
+        text-transform: uppercase;
     }
     .hero-meta-sep:nth-of-type(2) { display: none; }
-    .hero-bottom {
-        padding: 16px 18px 24px;
-        gap: 10px;
-    }
     .hero-ctas {
-        flex-direction: row;
+        flex-direction: column;
         gap: 8px;
         width: 100%;
+        margin-top: 4px;
     }
     .hero-btn {
-        flex: 1;
+        width: 100%;
         justify-content: center;
-        padding: 11px 12px;
-        font-size: 12px;
+        padding: 14px 18px;
+        font-size: 13px;
         white-space: nowrap;
     }
 }
@@ -1093,7 +1110,7 @@ footer {
 <nav id="nav">
     <a href="#" class="nav-logo">
         <div class="nav-orbit">
-            <img src="assets/My Portfolio Image.png" alt="Mostafa portrait" class="nav-avatar">
+            <img src="assets/Image for header.png" alt="Mostafa portrait" class="nav-avatar">
         </div>
         <div class="nav-copy">
             <div class="nav-name">Mostafa Aboelhareth</div>
@@ -1135,14 +1152,19 @@ footer {
     <!-- Background atmospheric name text -->
     <div class="hero-bg-text" aria-hidden="true">
         <div class="hbt-first">Mostafa</div>
-        <div class="hbt-second">Aboelhareth</div>
+        <div class="hbt-second">Abo Elhareth</div>
     </div>
 
     <!-- Portrait — full height, blended -->
     <div class="hero-portrait-wrap">
         <img
-            class="hero-portrait-img"
-            src="assets/Wow Portfolio image for hero section.png"
+            class="hero-portrait-img hero-portrait-web"
+            src="assets/Portrait Photo for web.png"
+            alt="Mostafa Aboelhareth — Senior Product Designer"
+        >
+        <img
+            class="hero-portrait-img hero-portrait-mob"
+            src="assets/Portrait Photo for mobile.png"
             alt="Mostafa Aboelhareth — Senior Product Designer"
         >
     </div>
