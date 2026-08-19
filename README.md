@@ -3,7 +3,7 @@
 Personal portfolio for Mostafa Aboelhareth.
 
 Live site:
-- https://mostafaaboelharethux.github.io/Mostafauxdesign/
+- https://mostafa-aboelhareth.site
 
 Repository:
 - git@github.com:MostafaAboElharethux/Mostafauxdesign.git
